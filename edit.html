@@ -1,6 +1,92 @@
-<h1>File: {{.Title}}</h1>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+		<!--JQ imports  -->
+	<!-- <base href="/"> -->
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ 	<script src="/root/go-browser-pad/jquery-linedtextarea.js"></script>
+	<link href="/root/go-browser-pad/jquery-linedtextarea.css" type="text/css" rel="stylesheet" />
 
-<form action="/save/{{.Title}}" method="POST">
-<div><textarea name="body" rows="20" cols="80">{{printf "%s" .Body}}</textarea></div>
-<div><input type="submit" value="Save"></div>
-</form>
+	<!-- For optimal compatibility, use google chrome browser -->
+	<title>Go Browser Pad</title>
+	<!-- Styling -->
+	<style type="text/css">
+		body{
+			background-color: #ffe6e6;
+		}
+		h1{
+			margin-bottom:3px;
+			font-family:'Calibri','Rancho', Helvetica, sans-serif;
+			text-align:center;
+		}
+		.pad {
+			display: inline-block;
+		}
+		.lined {
+			height:90%;
+			width:90%;
+  			background-color: #e1e7f2;
+			font-family:'Calibri','Rancho', Helvetica, sans-serif;
+			/*font-size:1.159em;*/
+			margin-top:3px;
+		}
+	</style>
+
+	<!-- Importing socket for linedtextarea -->
+	<script>
+		$(function() {
+
+		  // Target all classed with ".lined"
+		  $(".lined").linedtextarea(
+		    {selectedLine: 1}
+		  );
+
+		});
+	</script>
+</head>
+<!-- Reactive sizing onload and resize -->
+<script>
+	function reactiveSizing() {
+	    var w = window.outerWidth - 400;
+    	var h = window.outerHeight - 305;
+		document.getElementById("pad").style.height = h + "px";
+		document.getElementById("pad").style.width = w + "px";
+	}
+</script>
+
+<!-- onload and onresize -->
+<body onload="reactiveSizing()" onresize="reactiveSizing()">
+
+	<h1>File: {{.Title}}</h1>
+
+	<form action="/save/{{.Title}}" method="POST">
+		<!-- word counter and character counter -->
+		<div style="display: inline; overflow: hidden; float:right">
+			<div style="text-align: right; float: right; font-family:'Calibri','Rancho', Helvetica, sans-serif; font-size: 1.5em;margin-top:20px">
+					| Words: <div id="wc" style="display: inline;"></div>
+					| Characters: <div id="cc" style="display: inline;"></div> |
+			</div>
+		</div>
+		<!-- textarea -->
+		<div class="pad">
+			<textarea id="pad" name="body" class="lined" rows=10>{{printf "%s" .Body}}</textarea>
+		</div>
+		<!-- Save button -->
+		<input type="submit" value="Save" style="height:70px;width:70px;float:right">
+		<script>
+			//Counts words and characters
+			function getWordCount(){
+				var text = document.getElementById("pad").value;
+				var wc = text.split(/\w\w+/).length - 1;
+				cc = text.length;
+				document.getElementById("wc").innerHTML = wc;
+				document.getElementById("cc").innerHTML = cc;
+
+			}
+			// Check every second
+			setInterval(getWordCount, 1000);
+		</script>
+	</form>
+</body>
+<html>
