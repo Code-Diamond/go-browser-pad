@@ -1,5 +1,8 @@
 Spawns a request handling server that is also a browser based text editor.
 
+Features line numbers, file saving and opening, word and character counting.
+Built natively for google chrome.
+
 To use, run the program to start the server.
 Open the browser and enter localhost:8080/view/data
 This will create a .txt file in the local directory with the same name following "/view/"; in example case data.txt.
