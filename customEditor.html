@@ -44,17 +44,15 @@
 		}
 	</style>
 	<script>
-
+		var currentLineNumber = 0;
 	    function getLineNumber(textarea, indicator) {
-
-	        indicator.innerHTML = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
+	        var i = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
+	        lines[i-1].style.backgroundColor = "yellow"
+	        currentLineNumber = i-1;
+	        console.log(currentLineNumber)
 	    }
 
 
-
-		function currentLineNumber(i){
-			lines[i-1].style.backgroundColor = "yellow"
-		}
 		function createLineNumbers(){
 			var numberOfLinesInDocument = 10
 			for(var i = 1; i <= numberOfLinesInDocument; i++)
@@ -89,7 +87,7 @@
 <body>
 	<div class="lineNumbers" id="lineNumbers">
 	</div>	
-	<textarea wrap="off" id="hi" rows=10 cols=75 onkeyup="getLineNumber(this, document.getElementById('lineNo'));" onmouseup="this.onkeyup();">
+	<textarea wrap="off" id="hi" rows=10 cols=75 onkeyup="getLineNumber(this, document.getElementById('lineNumbers'));" onmouseup="this.onkeyup();">
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer mauris dui, ultricies a cursus a, 
 semper quis ipsum. Etiam fermentum, ligula in euismod iaculis, ligula lacus imperdiet 
 libero, vitae lobortis tellus dui a neque. Sed leo erat, aliquam a scelerisque sed,
@@ -103,7 +101,7 @@ In suscipit elementum magna vel tempor. Morbi tempus dolor ac lectus suscipit, v
 
 <script>
 	createLineNumbers();
-	currentLineNumber(3);
+	// currentLineNumber(3);
 </script>
 </body>
 </html>
