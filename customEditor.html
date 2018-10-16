@@ -2,40 +2,61 @@
 <html>	
 <head>
 	<style>
+		body{
+			background-color: grey;
+		}
 		.lineNumbers{
-			width:50px;/*increase by 10px for each factor of 10*/1
+			padding-top:0px;			
+			width:50px
 			height:100%;
 			margin-left:0px;
-			margin-top:2px;
+			border:solid 4px grey;
 		}
 		div{
 			float:left;
+			padding-left:10px;
+			padding-top: 0px;
+			background-color: #0d192b;
 		}
 		#lineNumbers{
 			text-align:center;
+			padding-top:0px;			
 		}
 		p{
+			padding-left:10px;
+			font-weight: lighter;
 			margin-top:0px;
 			margin-bottom:0px;
-			font-size:20px;
-			font-family:Courier;
+			font-size:1em;
+			font-family:Times;
 		}
 		#hi{
-			margin-left:3px;
-			/*margin-bottom:px;*/
-			line-height: 26px;
-			border:solid 0px grey;
-			font-family:Courier;
-			font-size:20px;
-			resize: none;	
+			margin-top:0px;
+			padding-top:0px;
+			padding-left:10px;
+			border:solid 4px grey;
+			font-family:Times;
+			font-size:1em;
+			font-weight: lighter;
+			color:black;
+			resize: none;
+			background-color: #cacdd1;	
 		}
 	</style>
 	<script>
+
+	    function getLineNumber(textarea, indicator) {
+
+	        indicator.innerHTML = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
+	    }
+
+
+
 		function currentLineNumber(i){
 			lines[i-1].style.backgroundColor = "yellow"
 		}
 		function createLineNumbers(){
-			var numberOfLinesInDocument = 1000
+			var numberOfLinesInDocument = 10
 			for(var i = 1; i <= numberOfLinesInDocument; i++)
 			{
 				if(i%2==0)
@@ -44,7 +65,7 @@
 					var lineNumberText = i.toString() + "\n";
 					var line = document.createElement('p');
 					line.style.backgroundColor = "#cacdd1";
-					line.style.border = "solid 1px black"
+					// line.style.border = "solid 1px grey"
 					lines.push(line);
 					line.appendChild(document.createTextNode(lineNumberText));
 					orderedList.appendChild(line);									
@@ -55,7 +76,7 @@
 					var lineNumberText = i.toString() + "\n";
 					var line = document.createElement('p');
 					line.style.backgroundColor = "#88898c";
-					line.style.border = "solid 1px black"
+					// line.style.border = "solid 1px grey"
 					lines.push(line);
 					line.appendChild(document.createTextNode(lineNumberText));
 					orderedList.appendChild(line);	
@@ -68,7 +89,17 @@
 <body>
 	<div class="lineNumbers" id="lineNumbers">
 	</div>	
-	<textarea id="hi" rows=1000 cols=10>asd</textarea>
+	<textarea wrap="off" id="hi" rows=10 cols=75 onkeyup="getLineNumber(this, document.getElementById('lineNo'));" onmouseup="this.onkeyup();">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer mauris dui, ultricies a cursus a, 
+semper quis ipsum. Etiam fermentum, ligula in euismod iaculis, ligula lacus imperdiet 
+libero, vitae lobortis tellus dui a neque. Sed leo erat, aliquam a scelerisque sed,
+faucibus a lacus. Cras congue, augue quis ullamcorper blandit, lectus justo tincidunt tortor, id dictum 
+dolor dui tincidunt nisi. In felis orci, porttitor ac auctor et, vulputate sed tellus. In eleifend purus et dolor feugiat, eget imperdiet quam molestie. Morbi imperdiet turpis vel egestas 
+maximus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam suscipit nisi vel mauris consectetur molestie. Pellentesque ac fringilla neque. 
+Suspendisse eu justo a mauris scelerisque aliquet. Nam volutpat gravida nunc, quis sagittis arcu bibendum gravida. Donec eget tellus et metus vestibulum commodo.
+
+In suscipit elementum magna vel tempor. Morbi tempus dolor ac lectus suscipit, vitae interdum diam viverra. Mauris ac ex libero. Etiam sit amet tortor id nulla porttitor sollicitudin ac eget nunc. Nullam ac urna ut ante sollicitudin fringilla in id massa. Nunc a lectus id dolor sagittis gravida. Curabitur sed faucibus magna. Quisque sagittis felis eget semper tincidunt. 
+	</textarea>
 
 <script>
 	createLineNumbers();
