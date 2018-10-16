@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>	
+<head>
+	<style>
+		.lineNumbers{
+			width:50px;/*increase by 10px for each factor of 10*/1
+			height:100%;
+			margin-left:0px;
+			margin-top:2px;
+		}
+		div{
+			float:left;
+		}
+		#lineNumbers{
+			text-align:center;
+		}
+		p{
+			margin-top:0px;
+			margin-bottom:0px;
+			font-size:20px;
+			font-family:Courier;
+		}
+		#hi{
+			margin-left:3px;
+			/*margin-bottom:px;*/
+			line-height: 26px;
+			border:solid 0px grey;
+			font-family:Courier;
+			font-size:20px;
+			resize: none;	
+		}
+	</style>
+	<script>
+		function currentLineNumber(i){
+			lines[i-1].style.backgroundColor = "yellow"
+		}
+		function createLineNumbers(){
+			var numberOfLinesInDocument = 1000
+			for(var i = 1; i <= numberOfLinesInDocument; i++)
+			{
+				if(i%2==0)
+				{
+					var orderedList = document.getElementById('lineNumbers');
+					var lineNumberText = i.toString() + "\n";
+					var line = document.createElement('p');
+					line.style.backgroundColor = "#cacdd1";
+					line.style.border = "solid 1px black"
+					lines.push(line);
+					line.appendChild(document.createTextNode(lineNumberText));
+					orderedList.appendChild(line);									
+				}
+				else
+				{
+					var orderedList = document.getElementById('lineNumbers');
+					var lineNumberText = i.toString() + "\n";
+					var line = document.createElement('p');
+					line.style.backgroundColor = "#88898c";
+					line.style.border = "solid 1px black"
+					lines.push(line);
+					line.appendChild(document.createTextNode(lineNumberText));
+					orderedList.appendChild(line);	
+				}
+			}
+		}
+		var lines = []
+	</script>
+</head>
+<body>
+	<div class="lineNumbers" id="lineNumbers">
+	</div>	
+	<textarea id="hi" rows=1000 cols=10>asd</textarea>
+
+<script>
+	createLineNumbers();
+	currentLineNumber(3);
+</script>
+</body>
+</html>
