@@ -3,23 +3,23 @@
 <head>
 	<style>
 		body{
-			background-color: grey;
+			/*background-color: grey;*/
 		}
 		.lineNumbers{
 			padding-top:0px;			
 			width:50px
 			height:100%;
 			margin-left:0px;
-			border:solid 4px grey;
+			border:solid 4px #577fbf;
 		}
 		div{
 			float:left;
 			padding-left:10px;
 			padding-top: 0px;
-			background-color: #0d192b;
+			background-color: #839bc1;
 		}
 		#lineNumbers{
-			text-align:center;
+			/*text-align:center;*/
 			padding-top:0px;			
 		}
 		p{
@@ -29,64 +29,94 @@
 			margin-bottom:0px;
 			font-size:1em;
 			font-family:Times;
+			border-right:solid 4px;
+			border-right-color: #577fbf;
 		}
 		#hi{
+			overflow:hidden;
 			margin-top:0px;
 			padding-top:0px;
-			padding-left:10px;
-			border:solid 4px grey;
+			padding-left:0px;
+			border:solid 4px #577fbf;
+			border-left-color: red;
 			font-family:Times;
 			font-size:1em;
 			font-weight: lighter;
 			color:black;
 			resize: none;
-			background-color: #cacdd1;	
+			background-color: #f9eba9;	
 		}
 	</style>
 	<script>
+		var lines = []
 		var currentLineNumber = -1;
+	    var text;
+		var newLines;
+		var count;
+		function getNumberOfLinesInText(){
+		    text = document.getElementById("hi").innerHTML;   
+			newLines = text.split(/\r|\r\n|\n/);
+			count = newLines.length;
+			document.getElementById("hi").rows=count-1;
+		}
 	    function getLineNumber(textarea, indicator) {
-	    	//if its the first click
-	    	if(currentLineNumber == -1)
-	    	{
-		        var i = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
-		        lines[i-1].style.backgroundColor = "yellow"
-		        currentLineNumber = i-1;
-		        console.log(currentLineNumber)	    		
-	    	}
-	    	else
-	    	{
-	    		//if its even
-	    		if(currentLineNumber % 2 == 0)
-	    		{
-	    			lines[currentLineNumber].style.backgroundColor = "#88898c"
-		        	var i = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
-			        lines[i-1].style.backgroundColor = "yellow"
+	    	try{
+
+		    	//if its the first click
+		    	if(currentLineNumber == -1)
+		    	{
+			        var i = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
+			        lines[i-1].style.backgroundColor = "orange"
 			        currentLineNumber = i-1;
-			        console.log(currentLineNumber)	    	
-	    		}
-	    		else
-	    		{
-	    			lines[currentLineNumber].style.backgroundColor = "#cacdd1"
-		        	var i = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
-			        lines[i-1].style.backgroundColor = "yellow"
-			        currentLineNumber = i-1;
-			        console.log(currentLineNumber)	    	
-			 	}
+			        console.log(currentLineNumber)	    		
+		    	}
+		    	else
+		    	{
+		    		//if its even
+		    		if(currentLineNumber % 2 == 0)
+		    		{
+		    			lines[currentLineNumber].style.backgroundColor = "#f9df6b"
+			        	var i = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
+				        lines[i-1].style.backgroundColor = "orange"
+				        currentLineNumber = i-1;
+				        console.log(currentLineNumber)	    	
+		    		}
+		    		else
+		    		{
+		    			lines[currentLineNumber].style.backgroundColor = "#f9eba9"
+			        	var i = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
+				        lines[i-1].style.backgroundColor = "orange"
+				        currentLineNumber = i-1;
+				        console.log(currentLineNumber)	    	
+				 	}
+		    	}
 	    	}
+	    	catch(err){//user enters new line
+	    		var lineNumberText = count + "\n";
+				var line = document.createElement('p');
+				count++;	
+	    		lines.push(line)
+	    		getLineNumber(textarea, indicator)
+				var orderedList = document.getElementById('lineNumbers');
+				line.appendChild(document.createTextNode(lineNumberText));
+				orderedList.appendChild(line);
+				document.getElementById("hi").rows += 1
+	 			// currentLineNumber--;
+
+	    	}
+
 	    }
-
-
 		function createLineNumbers(){
-			var numberOfLinesInDocument = 10
-			for(var i = 1; i <= numberOfLinesInDocument; i++)
+			getNumberOfLinesInText();
+			var numberOfLinesInDocument = count
+			for(var i = 1; i < numberOfLinesInDocument || i < 10; i++)
 			{
 				if(i%2==0)
 				{
 					var orderedList = document.getElementById('lineNumbers');
 					var lineNumberText = i.toString() + "\n";
 					var line = document.createElement('p');
-					line.style.backgroundColor = "#cacdd1";
+					line.style.backgroundColor = "#f9eba9";
 					// line.style.border = "solid 1px grey"
 					lines.push(line);
 					line.appendChild(document.createTextNode(lineNumberText));
@@ -97,7 +127,7 @@
 					var orderedList = document.getElementById('lineNumbers');
 					var lineNumberText = i.toString() + "\n";
 					var line = document.createElement('p');
-					line.style.backgroundColor = "#88898c";
+					line.style.backgroundColor = "#f9df6b";
 					// line.style.border = "solid 1px grey"
 					lines.push(line);
 					line.appendChild(document.createTextNode(lineNumberText));
@@ -105,27 +135,38 @@
 				}
 			}
 		}
-		var lines = []
 	</script>
 </head>
 <body>
 	<div class="lineNumbers" id="lineNumbers">
 	</div>	
 	<textarea wrap="off" id="hi" rows=10 cols=75 onkeyup="getLineNumber(this, document.getElementById('lineNumbers'));" onmouseup="this.onkeyup();">
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer mauris dui, ultricies a cursus a, 
-semper quis ipsum. Etiam fermentum, ligula in euismod iaculis, ligula lacus imperdiet 
-libero, vitae lobortis tellus dui a neque. Sed leo erat, aliquam a scelerisque sed,
-faucibus a lacus. Cras congue, augue quis ullamcorper blandit, lectus justo tincidunt tortor, id dictum 
-dolor dui tincidunt nisi. In felis orci, porttitor ac auctor et, vulputate sed tellus. In eleifend purus et dolor feugiat, eget imperdiet quam molestie. Morbi imperdiet turpis vel egestas 
-maximus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam suscipit nisi vel mauris consectetur molestie. Pellentesque ac fringilla neque. 
-Suspendisse eu justo a mauris scelerisque aliquet. Nam volutpat gravida nunc, quis sagittis arcu bibendum gravida. Donec eget tellus et metus vestibulum commodo.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus pellentesque lectus faucibus mauris venenatis, nec pellentesque nunc tincidunt. Etiam nec elit ex. Integer in turpis vitae 
+sapien tempor malesuada ac a ligula. Praesent eget lectus neque. Etiam facilisis arcu a consequat aliquet. Fusce suscipit congue metus et viverra. Duis non lacinia sapien. Suspendisse 
+lobortis diam libero, nec vulputate nibh congue luctus. Etiam sodales egestas urna vel eleifend.
+Duis tincidunt purus tellus, sed sollicitudin nisi rutrum sed. Aliquam aliquet dolor eget risus scelerisque, id sodales ante scelerisque. Nulla condimentum lacinia justo a elementum. Donec 
+ut nibh varius, varius magna eu, aliquam nunc. Fusce hendrerit pretium lacus, ut porttitor turpis consectetur porttitor. Nullam vel orci a purus sollicitudin auctor blandit sit amet nunc. 
+Nam condimentum justo lectus, sed hendrerit metus facilisis ut. Nulla id nisi pretium, placerat sapien id, porttitor sem. Integer imperdiet, diam eget tempus vehicula, ex enim accumsan 
+ligula, non rutrum risus enim vitae ex. Maecenas non sem eros. Donec tempus justo vel quam tristique, sit amet finibus risus dapibus. Aliquam eleifend, arcu quis luctus semper, nunc justo 
+porttitor risus, in maximus ligula justo non augue.
+Morbi metus eros, tristique sit amet bibendum quis, porttitor sit amet lorem. Proin finibus nisl ut nisi imperdiet, ut fermentum mauris dapibus. Donec dignissim laoreet quam a volutpat. 
+Donec at tempus risus, in euismod tortor. Proin interdum vel nisi a congue. Phasellus sit amet maximus urna. Donec dolor velit, egestas id bibendum eu, semper ac libero. Mauris ac varius 
+nunc. Donec convallis justo odio, in ultrices libero aliquam eu. Nulla sit amet euismod mauris, sed molestie nunc. Sed vel pharetra magna. In ac fringilla velit, eu porta felis. Praesent sit amet diam iaculis, commodo neque vitae, elementum tellus. Proin facilisis egestas nisi, a dapibus augue. Praesent id ultrices elit.
 
-In suscipit elementum magna vel tempor. Morbi tempus dolor ac lectus suscipit, vitae interdum diam viverra. Mauris ac ex libero. Etiam sit amet tortor id nulla porttitor sollicitudin ac eget nunc. Nullam ac urna ut ante sollicitudin fringilla in id massa. Nunc a lectus id dolor sagittis gravida. Curabitur sed faucibus magna. Quisque sagittis felis eget semper tincidunt. 
+Sed nec sem porttitor, porta tellus id, varius urna. Donec tortor diam, consectetur mollis quam non, bibendum commodo sem. Integer accumsan luctus magna at pharetra. Mauris ipsum nibh, 
+ultricies et tempor ac, viverra sed lacus. In hac habitasse platea dictumst. Etiam a porta dolor. Sed a turpis eu est convallis mollis. Praesent consequat tempus commodo. Integer venenatis 
+porttitor euismod. Nullam id purus quis nisl vehicula venenatis vitae eu nulla. Mauris sit amet justo a lorem ultricies iaculis sed sagittis neque. Maecenas sed purus ut mauris dictum 
+posuere a in sapien. Curabitur id erat et mi viverra viverra. Cras sed nibh mi. Aenean vel lacinia lorem.
+
+Quisque quis magna quis nulla mollis iaculis. Aliquam eget pellentesque nisi. Pellentesque ligula diam, tincidunt ac blandit vel, placerat ut dui. Etiam faucibus, nisl sed vulputate semper, 
+massa sapien pretium diam, sit amet ultricies libero dolor tincidunt tortor. Vestibulum sed viverra massa. Nulla eu viverra felis. Donec lorem augue, bibendum vitae mollis non, imperdiet 
+quis urna. Suspendisse potenti. Praesent ultricies at sem eu porta. Fusce quis sagittis dolor. 
 	</textarea>
 
-<script>
-	createLineNumbers();
-	// currentLineNumber(3);
-</script>
+	<script>
+		createLineNumbers();
+
+		
+	</script>
 </body>
 </html>
