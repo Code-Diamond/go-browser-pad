@@ -44,12 +44,36 @@
 		}
 	</style>
 	<script>
-		var currentLineNumber = 0;
+		var currentLineNumber = -1;
 	    function getLineNumber(textarea, indicator) {
-	        var i = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
-	        lines[i-1].style.backgroundColor = "yellow"
-	        currentLineNumber = i-1;
-	        console.log(currentLineNumber)
+	    	//if its the first click
+	    	if(currentLineNumber == -1)
+	    	{
+		        var i = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
+		        lines[i-1].style.backgroundColor = "yellow"
+		        currentLineNumber = i-1;
+		        console.log(currentLineNumber)	    		
+	    	}
+	    	else
+	    	{
+	    		//if its even
+	    		if(currentLineNumber % 2 == 0)
+	    		{
+	    			lines[currentLineNumber].style.backgroundColor = "#88898c"
+		        	var i = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
+			        lines[i-1].style.backgroundColor = "yellow"
+			        currentLineNumber = i-1;
+			        console.log(currentLineNumber)	    	
+	    		}
+	    		else
+	    		{
+	    			lines[currentLineNumber].style.backgroundColor = "#cacdd1"
+		        	var i = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
+			        lines[i-1].style.backgroundColor = "yellow"
+			        currentLineNumber = i-1;
+			        console.log(currentLineNumber)	    	
+			 	}
+	    	}
 	    }
 
 
